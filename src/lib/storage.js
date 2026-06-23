@@ -7,6 +7,15 @@ const TRANSIENT = new Set([
   'trendsLoading', 'commentLoading', 'commentCopied', 'pulseLoading',
 ])
 
+// Strip transient fields — the shape we persist locally and sync to the cloud.
+export function cleanState(state) {
+  const keep = {}
+  for (const k of Object.keys(state)) {
+    if (!TRANSIENT.has(k)) keep[k] = state[k]
+  }
+  return keep
+}
+
 export function loadState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -18,11 +27,7 @@ export function loadState() {
 
 export function persistState(state) {
   try {
-    const keep = {}
-    for (const k of Object.keys(state)) {
-      if (!TRANSIENT.has(k)) keep[k] = state[k]
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(keep))
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cleanState(state)))
   } catch (e) {
     /* ignore quota / serialization errors */
   }

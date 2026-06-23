@@ -1,12 +1,25 @@
 import { ACC_ORDER, ACC, MODULES } from '../lib/constants.js'
 import { swatch, moduleTab } from '../lib/styles.js'
 
-export default function Header({ state, vals, actions, dispatch }) {
+export default function Header({ state, vals, actions, dispatch, auth }) {
+  const showAccount = auth?.enabled && auth.user
   return (
     <>
-      {/* Top utility row: accent swatches + date / logged count */}
+      {/* Top utility row: account + accent swatches + date / logged count */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '24px 0 0' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+          {showAccount && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span className="mono" style={{ fontSize: 11, letterSpacing: '.1em', color: '#9e9e9e' }}>{auth.user.email}</span>
+              <button
+                onClick={() => auth.signOut()}
+                className="mono"
+                style={{ fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000', paddingBottom: 1 }}
+              >
+                Sign out
+              </button>
+            </div>
+          )}
           <div style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
             {ACC_ORDER.map(([k, name]) => (
               <button
