@@ -1,0 +1,47 @@
+/* Global chrome — ported verbatim from the prototype's <style> block.
+   Zero radius is a hard rule; everything is flat black-and-white editorial. */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: #fff; }
+::selection { background: #000; color: #fff; }
+body {
+  font-family: 'Geist', sans-serif;
+  color: #000;
+  -webkit-font-smoothing: antialiased;
+}
+input, textarea, select, button { font-family: inherit; color: #000; }
+textarea,
+input[type=text],
+input[type=number] {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+  padding: 10px 0;
+  font-size: 17px;
+  line-height: 1.6;
+  background: transparent;
+  resize: none;
+}
+textarea:focus, input:focus, select:focus { outline: none; }
+::placeholder { color: #bdbdbd; }
+select {
+  border: none;
+  border-bottom: 1px solid #000;
+  border-radius: 0;
+  padding: 8px 0;
+  font-size: 15px;
+  background: transparent;
+  cursor: pointer;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.spin {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 2px solid rgba(255, 255, 255, .35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .6s linear infinite;
+}
+.mono { font-family: 'Geist Mono', monospace; }
