@@ -11,6 +11,11 @@ create table if not exists public.app_state (
 
 alter table public.app_state enable row level security;
 
+-- Grant table privileges to signed-in users (RLS below still restricts to own
+-- row). Makes the schema self-sufficient even if "automatically expose new
+-- tables" is off in project settings.
+grant select, insert, update on public.app_state to authenticated;
+
 -- Each authenticated user may read/insert/update only their own row.
 drop policy if exists "own row select" on public.app_state;
 create policy "own row select" on public.app_state
