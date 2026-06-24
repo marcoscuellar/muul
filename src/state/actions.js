@@ -155,7 +155,7 @@ export function useActions(state, dispatch) {
       setTimeout(() => set({ commentCopied: false }), 1400)
     }
 
-    // Two-pass "Live Signal" feed: generate candidates, then verify + tag.
+    // Two-pass RELAY feed: generate candidates, then verify + tag confidence.
     async function loadPulse() {
       const s = get()
       if (s.pulseLoading) return

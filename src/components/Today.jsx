@@ -1,5 +1,6 @@
 import Spinner from './Spinner.jsx'
 import Mic from './Mic.jsx'
+import RelayLogo from './RelayLogo.jsx'
 import { accentBtn, ghostBtn, glanceDot, confChip } from '../lib/styles.js'
 
 const cardTitle = { fontSize: 24, fontWeight: 800, letterSpacing: '-.02em', textTransform: 'uppercase', lineHeight: 1 }
@@ -94,15 +95,16 @@ export default function Today({ state, vals, actions, dispatch }) {
           )}
         </div>
 
-        {/* 03 PULSE — Live Signal feed */}
+        {/* 03 RELAY — direct-source feed (two-pass verified) */}
         <div style={{ border: '1px solid #000', padding: '24px 30px', background: '#E0A500' }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
               <span className="mono" style={{ fontSize: 12, color: 'rgba(0,0,0,.5)' }}>03</span>
               <div>
-                <h2 style={cardTitle}>The pulse</h2>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: "'Geist Mono',monospace", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(0,0,0,.6)', marginTop: 7 }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D7263D', display: 'inline-block' }} />Live signal
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                  <RelayLogo />
+                  <span style={{ fontFamily: "'Geist Mono',monospace", fontSize: 20, letterSpacing: '.16em', textTransform: 'uppercase', fontWeight: 700, color: '#16233f' }}>RELAY</span>
+                  <span style={{ fontFamily: "'Geist Mono',monospace", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(0,0,0,.5)' }}>· standby</span>
                 </span>
               </div>
             </div>
@@ -112,6 +114,17 @@ export default function Today({ state, vals, actions, dispatch }) {
             </button>
           </div>
           <p style={{ fontSize: 13, color: 'rgba(0,0,0,.62)', marginTop: 8, lineHeight: 1.5 }}>What's moving in security, AI, tech stacks &amp; standards — tap one to draft it. <i>Each item is cross-checked twice before it shows — still verify before you post.</i></p>
+
+          {/* RELAY engine panel — direct-source wiring is Coming v2 */}
+          <div style={{ border: '1px solid rgba(0,0,0,.35)', marginTop: 16, padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <RelayLogo />
+              <span style={{ fontFamily: "'Geist Mono',monospace", fontSize: 13, fontWeight: 700, letterSpacing: '.22em', color: '#16233f' }}>RELAY</span>
+              <span className="mono" style={{ fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: 'rgba(0,0,0,.62)' }}>Direct-source engine</span>
+            </div>
+            <span className="mono" style={{ fontSize: 9, letterSpacing: '.1em', textTransform: 'uppercase', background: '#000', color: '#E0A500', padding: '3px 8px' }}>Coming · v2</span>
+            <div className="mono" style={{ flexBasis: '100%', fontSize: 10, letterSpacing: '.06em', textTransform: 'uppercase', color: 'rgba(0,0,0,.5)' }}>Pulls direct: CISA · NVD · arXiv · IEEE · GitHub · vendor blogs</div>
+          </div>
 
           {state.pulseLoading && (
             <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, borderTop: '1px solid rgba(0,0,0,.25)', marginTop: 16, paddingTop: 16, fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: '#000' }}>
