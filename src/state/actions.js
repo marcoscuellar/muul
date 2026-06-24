@@ -155,12 +155,50 @@ export function useActions(state, dispatch) {
       setTimeout(() => set({ commentCopied: false }), 1400)
     }
 
+    // Two-pass "Live Signal" feed: generate candidates, then verify + tag.
     async function loadPulse() {
       const s = get()
       if (s.pulseLoading) return
-      set({ pulseLoading: true })
-      const out = await ask(prompts.pulse())
-      set({ pulseLoading: false, pulse: out })
+      set({ pulseLoading: true, pulseStage: 'Pass 1 — scanning the wire…' })
+      const todayLong = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+
+      // Pass 1 — over-generate candidates so the verifier can cut.
+      const raw1 = await ask(prompts.pulsePass1(todayLong))
+      const cand = parseJSON(raw1, [])
+      if (!Array.isArray(cand) || !cand.length) {
+        set({ pulseLoading: false, pulseStage: '', feed: [], pulse: '', feedStatus: 'Nothing came back — try again.' })
+        return
+      }
+
+      // Pass 2 — skeptical fact-check: drop fabrications, tag confidence.
+      set({ pulseStage: 'Pass 2 — cross-checking each item…' })
+      const raw2 = await ask(prompts.pulsePass2(todayLong, cand))
+      let feed = parseJSON(raw2, null)
+      if (!Array.isArray(feed)) feed = cand.map((c) => ({ ...c, confidence: 'Medium' }))
+      feed = feed.filter((f) => f && f.headline).slice(0, 6)
+      const status = feed.length
+        ? `Cross-checked ×2 · ${feed.length} of ${cand.length} passed`
+        : 'All candidates failed the check — refresh to retry.'
+      set({ pulseLoading: false, pulseStage: '', feed, pulse: feed.length ? '1' : '', feedStatus: status })
+    }
+
+    function draftFromFeed(item) {
+      set({ module: 'generate', genMode: 'post', topic: item.headline + ' — ' + item.take, output: '', ideas: [], outKind: '', grade: null, imgPrompt: '' })
+    }
+
+    // Idea Inbox — quick capture.
+    function addIdea() {
+      const t = (get().ideaDraft || '').trim()
+      if (!t) return
+      set({ ideaInbox: [{ id: Date.now(), text: t }, ...get().ideaInbox], ideaDraft: '' })
+    }
+
+    function removeIdea(id) {
+      set({ ideaInbox: get().ideaInbox.filter((i) => i.id !== id) })
+    }
+
+    function writeFromIdea(item) {
+      set({ module: 'generate', genMode: 'post', topic: item.text, output: '', ideas: [], outKind: '', grade: null, imgPrompt: '' })
     }
 
     function toggleDay(day) {
@@ -214,7 +252,8 @@ export function useActions(state, dispatch) {
       doGenerate, genImagePrompt, copyImgPrompt, gradePost, postToLinkedIn,
       copyOutput, saveDraft, useIdea, loadDraft, delDraft, setAccent,
       startDictation, loadTrends, useTrend, draftComment, copyComment,
-      loadPulse, toggleDay, setDayType, lockWeek, unlockWeek, setPosted,
+      loadPulse, draftFromFeed, addIdea, removeIdea, writeFromIdea,
+      toggleDay, setDayType, lockWeek, unlockWeek, setPosted,
       setMetric, logToHistory, runAnalysis,
     }
   }, [dispatch])

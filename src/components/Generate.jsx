@@ -1,5 +1,6 @@
 import Spinner from './Spinner.jsx'
 import Mic from './Mic.jsx'
+import CardHead from './CardHead.jsx'
 import { TYPES, TONES, GEN_MODES } from '../lib/constants.js'
 import { genModeWord, typeRow, typeMark, genBtn, chip, monoTextBtn } from '../lib/styles.js'
 
@@ -157,31 +158,65 @@ function Output({ state, vals, actions }) {
 
 function Library({ state, vals, actions, dispatch }) {
   return (
-    <div style={{ marginTop: 96, borderTop: '1px solid #000', paddingTop: 28 }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 40 }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 18 }}>
-          <span style={{ fontSize: 56, fontWeight: 800, letterSpacing: '-.04em', lineHeight: 1 }}>{state.drafts.length}</span>
-          <span className="mono" style={{ fontSize: 12, letterSpacing: '.18em', textTransform: 'uppercase' }}>Saved drafts</span>
+    <div className="card" style={{ border: '1px solid #000', padding: '28px 30px' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, marginBottom: 24, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+          <span className="mono" style={{ fontSize: 12, color: '#9e9e9e' }}>02</span>
+          <h2 style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-.02em', textTransform: 'uppercase', lineHeight: 1 }}>Library</h2>
+          <span className="mono" style={{ fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: '#9e9e9e' }}>{state.drafts.length} saved</span>
         </div>
-        <input type="text" placeholder="Search…" value={state.search} onChange={(e) => dispatch({ search: e.target.value })} style={{ maxWidth: 240 }} />
+        <input type="text" placeholder="Search…" value={state.search} onChange={(e) => dispatch({ search: e.target.value })} style={{ maxWidth: 140 }} />
       </div>
       {vals.hasDrafts ? (
-        <div style={{ borderTop: '1px solid #e5e5e5' }}>
+        <div style={{ borderTop: '1px solid #e5e5e5', maxHeight: 420, overflow: 'auto' }}>
           {vals.draftsF.map((d) => (
-            <div key={d.id} style={{ display: 'flex', alignItems: 'center', gap: 24, padding: '18px 0', borderBottom: '1px solid #e5e5e5' }}>
-              <span className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: '#000', width: 150, flex: 'none' }}>{d.type}</span>
-              <span style={{ flex: 1, fontSize: 16, lineHeight: 1.35 }}>{d.hook}</span>
-              <span className="mono" style={{ fontSize: 11, color: '#9e9e9e', flex: 'none' }}>{d.date}</span>
-              <div style={{ display: 'flex', gap: 16, flex: 'none' }}>
-                <button onClick={() => { try { navigator.clipboard.writeText(d.text) } catch (e) {} }} className="mono" style={{ fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>Copy</button>
-                <button onClick={() => actions.loadDraft(d)} className="mono" style={{ fontSize: 11, letterSpacing: '.08em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>Reuse</button>
-                <button onClick={() => actions.delDraft(d.id)} className="mono" style={{ fontSize: 11, background: 'none', border: 'none', cursor: 'pointer', color: '#9e9e9e' }}><i className="ti ti-x" /></button>
+            <div key={d.id} style={{ padding: '16px 0', borderBottom: '1px solid #e5e5e5' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginBottom: 7 }}>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: '.1em', textTransform: 'uppercase', color: '#fff', background: '#000', padding: '2px 7px' }}>{d.type}</span>
+                <span className="mono" style={{ fontSize: 10, color: '#9e9e9e', flex: 'none' }}>{d.date}</span>
+              </div>
+              <div style={{ fontSize: 15, lineHeight: 1.35, marginBottom: 9 }}>{d.hook}</div>
+              <div style={{ display: 'flex', gap: 16 }}>
+                <button onClick={() => { try { navigator.clipboard.writeText(d.text) } catch (e) {} }} className="mono" style={{ fontSize: 10, letterSpacing: '.08em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>Copy</button>
+                <button onClick={() => actions.loadDraft(d)} className="mono" style={{ fontSize: 10, letterSpacing: '.08em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>Reuse</button>
+                <button onClick={() => actions.delDraft(d.id)} className="mono" style={{ fontSize: 11, background: 'none', border: 'none', cursor: 'pointer', color: '#9e9e9e', marginLeft: 'auto' }}><i className="ti ti-x" /></button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div style={{ padding: '48px 0', color: '#bdbdbd', fontSize: 15, borderTop: '1px solid #e5e5e5' }}>Nothing saved yet.</div>
+        <div style={{ padding: '40px 0', color: '#bdbdbd', fontSize: 15, borderTop: '1px solid #e5e5e5' }}>Nothing saved yet.</div>
+      )}
+    </div>
+  )
+}
+
+function IdeaInbox({ state, actions, dispatch }) {
+  const onKey = (e) => { if (e.key === 'Enter') { e.preventDefault(); actions.addIdea() } }
+  return (
+    <div className="card" style={{ border: '1px solid #000', padding: '28px 30px', background: '#0E7C7B', color: '#fff' }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, marginBottom: 6 }}>
+        <span className="mono" style={{ fontSize: 12, color: 'rgba(255,255,255,.6)' }}>03</span>
+        <h2 style={{ fontSize: 24, fontWeight: 800, letterSpacing: '-.02em', textTransform: 'uppercase', lineHeight: 1 }}>Idea inbox</h2>
+        <span className="mono" style={{ fontSize: 11, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,.6)' }}>{state.ideaInbox.length} parked</span>
+      </div>
+      <p style={{ fontSize: 13, color: 'rgba(255,255,255,.7)', lineHeight: 1.5, marginBottom: 16 }}>Brain too loud? Dump it here. Hit enter, it's parked. Fire any one into the writer when you're ready.</p>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <input type="text" placeholder="A thought, a phrase, half an idea…" value={state.ideaDraft} onChange={(e) => dispatch({ ideaDraft: e.target.value })} onKeyDown={onKey} style={{ background: 'rgba(255,255,255,.12)', border: '1px solid rgba(255,255,255,.4)', color: '#fff' }} />
+        <button onClick={actions.addIdea} style={{ flex: 'none', background: '#fff', color: '#0E7C7B', border: 'none', padding: '0 18px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>Park</button>
+      </div>
+      {state.ideaInbox.length > 0 ? (
+        <div style={{ marginTop: 18, borderTop: '1px solid rgba(255,255,255,.25)', maxHeight: 360, overflow: 'auto' }}>
+          {state.ideaInbox.map((i) => (
+            <div key={i.id} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, padding: '13px 0', borderBottom: '1px solid rgba(255,255,255,.18)' }}>
+              <span style={{ flex: 1, fontSize: 15, lineHeight: 1.4 }}>{i.text}</span>
+              <button onClick={() => actions.writeFromIdea(i)} className="mono" style={{ flex: 'none', fontSize: 10, letterSpacing: '.08em', textTransform: 'uppercase', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', borderBottom: '1px solid #fff' }}>Write →</button>
+              <button onClick={() => actions.removeIdea(i.id)} style={{ flex: 'none', fontSize: 12, background: 'none', border: 'none', color: 'rgba(255,255,255,.6)', cursor: 'pointer' }}><i className="ti ti-x" /></button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div style={{ marginTop: 18, padding: '32px 0', borderTop: '1px solid rgba(255,255,255,.25)', color: 'rgba(255,255,255,.55)', fontSize: 14 }}>Inbox zero. Park your first thought above.</div>
       )}
     </div>
   )
@@ -198,21 +233,29 @@ export default function Generate({ state, vals, actions, dispatch }) {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
-        <div>
-          <Inputs state={state} vals={vals} actions={actions} dispatch={dispatch} />
-          <button onClick={actions.doGenerate} style={genBtn(state.generating, A, ON)}>
-            {state.generating && <Spinner />}
-            <span>{vals.genBtnLabel}</span>
-            <i className="ti ti-arrow-right" style={{ fontSize: 18 }} />
-          </button>
-        </div>
-        <div>
-          <Output state={state} vals={vals} actions={actions} />
+      {/* 01 Compose — input/output grid framed as a card */}
+      <div className="card" style={{ border: '1px solid #000', padding: '34px 36px' }}>
+        <div style={{ marginBottom: 34 }}><CardHead num="01" title="Compose" /></div>
+        <div className="grid2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80, alignItems: 'start' }}>
+          <div>
+            <Inputs state={state} vals={vals} actions={actions} dispatch={dispatch} />
+            <button onClick={actions.doGenerate} style={genBtn(state.generating, A, ON)}>
+              {state.generating && <Spinner />}
+              <span>{vals.genBtnLabel}</span>
+              <i className="ti ti-arrow-right" style={{ fontSize: 18 }} />
+            </button>
+          </div>
+          <div>
+            <Output state={state} vals={vals} actions={actions} />
+          </div>
         </div>
       </div>
 
-      <Library state={state} vals={vals} actions={actions} dispatch={dispatch} />
+      {/* 02 Library + 03 Idea Inbox */}
+      <div className="grid2" style={{ marginTop: 24, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}>
+        <Library state={state} vals={vals} actions={actions} dispatch={dispatch} />
+        <IdeaInbox state={state} actions={actions} dispatch={dispatch} />
+      </div>
     </div>
   )
 }

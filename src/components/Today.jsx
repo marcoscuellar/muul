@@ -1,6 +1,6 @@
 import Spinner from './Spinner.jsx'
 import Mic from './Mic.jsx'
-import { accentBtn, ghostBtn, glanceDot } from '../lib/styles.js'
+import { accentBtn, ghostBtn, glanceDot, confChip } from '../lib/styles.js'
 
 const cardTitle = { fontSize: 24, fontWeight: 800, letterSpacing: '-.02em', textTransform: 'uppercase', lineHeight: 1 }
 const cardDesc = { fontSize: 13, color: '#9e9e9e', marginTop: 8, lineHeight: 1.5 }
@@ -10,7 +10,7 @@ export default function Today({ state, vals, actions, dispatch }) {
   const { A, ON } = vals
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20, maxWidth: 780 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
+      <div className="grid2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
         {/* THE ONE JOB */}
         <div style={{ border: '1px solid #000', padding: '28px 30px', display: 'flex', flexDirection: 'column', gap: 18, height: '100%' }}>
           <div>
@@ -65,49 +65,79 @@ export default function Today({ state, vals, actions, dispatch }) {
         </div>
       </div>
 
-      {/* 02 COMMENT */}
-      <div style={{ border: '1px solid #000', padding: '24px 30px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-          <span className="mono" style={monoKicker}>02</span>
-          <h2 style={cardTitle}>Comment game</h2>
-        </div>
-        <p style={cardDesc}>Spot a post worth a reply? Paste it — get an on-brand comment that adds value, not generic praise.</p>
-        <textarea rows={4} placeholder="Paste the post you want to comment on…" value={state.commentSrc} onChange={(e) => dispatch({ commentSrc: e.target.value })} style={{ marginTop: 16 }} />
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
-          <span />
-          <Mic field="commentSrc" listeningField={state.listeningField} A={A} ON={ON} onToggle={actions.startDictation} />
-        </div>
-        <button onClick={actions.draftComment} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#000', color: '#fff', border: '1px solid #000', padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginTop: 16 }}>
-          {state.commentLoading && <Spinner />}
-          <span>{vals.commentBtnLabel}</span>
-        </button>
-        {state.commentOut && (
-          <div style={{ borderTop: '1px solid #e5e5e5', marginTop: 20, paddingTop: 14, animation: 'rise .25s ease' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <span className="mono" style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: '#9e9e9e' }}>Your comment</span>
-              <button onClick={actions.copyComment} className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>{vals.commentCopyLabel}</button>
-            </div>
-            <div style={{ fontSize: 15, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{state.commentOut}</div>
-          </div>
-        )}
-      </div>
-
-      {/* 03 PULSE */}
-      <div style={{ border: '1px solid #000', padding: '24px 30px' }}>
-        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+      {/* 02 COMMENT + 03 PULSE side by side */}
+      <div className="grid2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignItems: 'start' }}>
+        {/* 02 COMMENT */}
+        <div style={{ border: '1px solid #000', padding: '24px 30px' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-            <span className="mono" style={monoKicker}>03</span>
-            <h2 style={cardTitle}>The pulse</h2>
+            <span className="mono" style={monoKicker}>02</span>
+            <h2 style={cardTitle}>Comment game</h2>
           </div>
-          <button onClick={actions.loadPulse} style={ghostBtn}>
-            {state.pulseLoading && <Spinner dark />}
-            <span>{vals.pulseBtnLabel}</span>
+          <p style={cardDesc}>Spot a post worth a reply? Paste it — get an on-brand comment that adds value, not generic praise.</p>
+          <textarea rows={4} placeholder="Paste the post you want to comment on…" value={state.commentSrc} onChange={(e) => dispatch({ commentSrc: e.target.value })} style={{ marginTop: 16 }} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 8 }}>
+            <span />
+            <Mic field="commentSrc" listeningField={state.listeningField} A={A} ON={ON} onToggle={actions.startDictation} />
+          </div>
+          <button onClick={actions.draftComment} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#000', color: '#fff', border: '1px solid #000', padding: '10px 18px', fontSize: 13, fontWeight: 600, cursor: 'pointer', marginTop: 16 }}>
+            {state.commentLoading && <Spinner />}
+            <span>{vals.commentBtnLabel}</span>
           </button>
+          {state.commentOut && (
+            <div style={{ borderTop: '1px solid #e5e5e5', marginTop: 20, paddingTop: 14, animation: 'rise .25s ease' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                <span className="mono" style={{ fontSize: 10, letterSpacing: '.14em', textTransform: 'uppercase', color: '#9e9e9e' }}>Your comment</span>
+                <button onClick={actions.copyComment} className="mono" style={{ fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', background: 'none', border: 'none', cursor: 'pointer', borderBottom: '1px solid #000' }}>{vals.commentCopyLabel}</button>
+              </div>
+              <div style={{ fontSize: 15, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{state.commentOut}</div>
+            </div>
+          )}
         </div>
-        <p style={cardDesc}>What's working in social right now — plus one thing to try this week.</p>
-        {state.pulse && (
-          <div style={{ borderTop: '1px solid #e5e5e5', marginTop: 18, paddingTop: 16, fontSize: 15, lineHeight: 1.75, whiteSpace: 'pre-wrap', animation: 'rise .25s ease' }}>{state.pulse}</div>
-        )}
+
+        {/* 03 PULSE — Live Signal feed */}
+        <div style={{ border: '1px solid #000', padding: '24px 30px', background: '#E0A500' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+              <span className="mono" style={{ fontSize: 12, color: 'rgba(0,0,0,.5)' }}>03</span>
+              <div>
+                <h2 style={cardTitle}>The pulse</h2>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontFamily: "'Geist Mono',monospace", fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(0,0,0,.6)', marginTop: 7 }}>
+                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D7263D', display: 'inline-block' }} />Live signal
+                </span>
+              </div>
+            </div>
+            <button onClick={actions.loadPulse} style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#000', color: '#fff', border: '1px solid #000', padding: '9px 16px', fontSize: 13, fontWeight: 600, cursor: 'pointer' }}>
+              {state.pulseLoading && <Spinner />}
+              <span>{vals.pulseBtnLabel}</span>
+            </button>
+          </div>
+          <p style={{ fontSize: 13, color: 'rgba(0,0,0,.62)', marginTop: 8, lineHeight: 1.5 }}>What's moving in security, AI, tech stacks &amp; standards — tap one to draft it. <i>Each item is cross-checked twice before it shows — still verify before you post.</i></p>
+
+          {state.pulseLoading && (
+            <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 8, borderTop: '1px solid rgba(0,0,0,.25)', marginTop: 16, paddingTop: 16, fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase', color: '#000' }}>
+              <Spinner dark />{state.pulseStage}
+            </div>
+          )}
+
+          {vals.hasPulse && (
+            <div style={{ borderTop: '1px solid rgba(0,0,0,.25)', marginTop: 16, animation: 'rise .25s ease' }}>
+              <div className="mono" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(0,0,0,.62)', padding: '12px 0 4px' }}>
+                <i className="ti ti-shield-check" style={{ fontSize: 13 }} />{state.feedStatus}
+              </div>
+              {vals.feedViews.map((f, idx) => (
+                <div key={idx} onClick={() => actions.draftFromFeed(state.feed[idx])} style={{ padding: '15px 0', borderBottom: '1px solid rgba(0,0,0,.15)', cursor: 'pointer' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                    <span className="mono" style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#E0A500', background: '#000', display: 'inline-block', padding: '2px 7px' }}>{f.cat}</span>
+                    <span className="mono" style={confChip(f.confHigh)}>{f.confLabel}</span>
+                  </div>
+                  <div style={{ fontSize: 15, fontWeight: 600, lineHeight: 1.3, letterSpacing: '-.01em', color: '#000' }}>{f.headline}</div>
+                  <div style={{ fontSize: 13, color: 'rgba(0,0,0,.66)', marginTop: 5, lineHeight: 1.45 }}>{f.take}</div>
+                  <div className="mono" style={{ fontSize: 9, letterSpacing: '.12em', textTransform: 'uppercase', color: '#000', marginTop: 8, fontWeight: 600 }}>Draft this →</div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

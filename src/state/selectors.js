@@ -117,7 +117,14 @@ export function derive(s) {
     trendsBtnLabel: s.trendsLoading ? 'Reading the room…' : (s.trends.length ? 'Fresh batch' : 'Give me angles'),
     commentBtnLabel: s.commentLoading ? 'Drafting…' : 'Draft my comment',
     commentCopyLabel: s.commentCopied ? 'Copied' : 'Copy comment',
-    pulseBtnLabel: s.pulseLoading ? 'Pulling…' : (s.pulse ? 'Refresh' : 'Get the pulse'),
+    pulseBtnLabel: s.pulseLoading ? 'Scanning…' : (s.feed.length ? 'Refresh' : 'Scan now'),
+    hasPulse: !!s.pulse,
+    feedViews: s.feed.map((f) => ({
+      cat: f.cat, headline: f.headline, take: f.take,
+      confLabel: (f.confidence || 'Medium') + ' confidence',
+      confHigh: f.confidence === 'High',
+    })),
+    hasIdeas: s.ideaInbox.length > 0,
     analyzeBtnLabel: s.analyzing ? 'Reading' : 'Run analysis',
     commitStatus: s.committed ? 'LOCKED' : 'OPEN',
   }

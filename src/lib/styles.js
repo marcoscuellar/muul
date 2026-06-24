@@ -108,6 +108,13 @@ export const glanceDot = (done, A) => ({
   background: done ? A : '#fff',
 })
 
+// Confidence chip on Pulse feed items (High = filled, Medium = transparent).
+export const confChip = (high) => ({
+  fontSize: 9, letterSpacing: '.1em', textTransform: 'uppercase',
+  padding: '2px 7px', border: '1px solid #000', color: '#000',
+  background: high ? 'rgba(0,0,0,.12)' : 'transparent',
+})
+
 // Shared mono-text-button (Grade / Copy / Save / Reuse, etc.)
 export const monoTextBtn = {
   fontSize: 11, letterSpacing: '.1em', textTransform: 'uppercase',

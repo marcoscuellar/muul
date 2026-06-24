@@ -1,3 +1,4 @@
+import CardHead from './CardHead.jsx'
 import { weekDot } from '../lib/styles.js'
 
 const statBig = { fontSize: 128, fontWeight: 800, letterSpacing: '-.05em', lineHeight: .85 }
@@ -7,13 +8,13 @@ export default function Commit({ state, vals, actions, dispatch }) {
   const { A } = vals
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 80, marginBottom: 72 }}>
+      <div className="gap-lg" style={{ display: 'flex', alignItems: 'baseline', gap: 80, marginBottom: 72 }}>
         <div>
-          <div style={statBig}>{vals.contentDebt}</div>
+          <div className="statbig" style={statBig}>{vals.contentDebt}</div>
           <div className="mono" style={statLabel}>Posts you owe</div>
         </div>
         <div>
-          <div style={statBig}>{vals.postedCount}</div>
+          <div className="statbig" style={statBig}>{vals.postedCount}</div>
           <div className="mono" style={statLabel}>Shipped this week</div>
         </div>
         <div style={{ marginLeft: 'auto', textAlign: 'right' }}>
@@ -21,9 +22,10 @@ export default function Commit({ state, vals, actions, dispatch }) {
         </div>
       </div>
 
-      <div style={{ borderTop: '1px solid #000' }}>
+      <div className="card" style={{ border: '1px solid #000', padding: '16px 36px 8px' }}>
+        <div style={{ padding: '18px 0 10px' }}><CardHead num="01" title="Your week" /></div>
         {vals.weekViews.map((w) => (
-          <div key={w.day} style={{ display: 'flex', alignItems: 'center', gap: 32, padding: '22px 0', borderBottom: '1px solid #e5e5e5', opacity: w.opacity }}>
+          <div key={w.day} className="rowflex" style={{ display: 'flex', alignItems: 'center', gap: 32, padding: '22px 0', borderBottom: '1px solid #e5e5e5', opacity: w.opacity }}>
             <button onClick={() => actions.toggleDay(w.day)} style={weekDot(w.active, w.locked, A)} />
             <div style={{ width: 90, fontSize: 32, fontWeight: 800, letterSpacing: '-.02em', textTransform: 'uppercase' }}>{w.day}</div>
             {w.active ? (

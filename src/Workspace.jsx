@@ -27,7 +27,7 @@ export default function Workspace({ auth }) {
 
   return (
     <div style={{ minHeight: '100vh', background: '#fff' }}>
-      <div style={{ maxWidth: 1180, margin: '0 auto', padding: '0 56px' }}>
+      <div className="mwrap" style={{ maxWidth: 1180, margin: '0 auto', padding: '0 56px' }}>
         <Header {...shared} />
         <ModuleHero {...shared} />
         <View {...shared} />

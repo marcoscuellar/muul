@@ -1,4 +1,5 @@
 import Spinner from './Spinner.jsx'
+import CardHead from './CardHead.jsx'
 import { analyzeBtn } from '../lib/styles.js'
 
 const statKicker = { fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase', color: '#9e9e9e', marginBottom: 12 }
@@ -14,25 +15,26 @@ export default function Analyze({ state, vals, actions }) {
 
   return (
     <div>
-      <div style={{ display: 'flex', gap: 80, alignItems: 'flex-start', marginBottom: 80, flexWrap: 'wrap' }}>
+      <div className="gap-lg" style={{ display: 'flex', gap: 80, alignItems: 'flex-start', marginBottom: 80, flexWrap: 'wrap' }}>
         <div>
           <div className="mono" style={statKicker}>Top type</div>
-          <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9, textTransform: 'uppercase', maxWidth: 360 }}>{vals.topType}</div>
+          <div className="stat64" style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9, textTransform: 'uppercase', maxWidth: 360 }}>{vals.topType}</div>
           <div className="mono" style={{ fontSize: 13, marginTop: 12 }}>{vals.topTypeAvg} avg impressions</div>
         </div>
         <div>
           <div className="mono" style={statKicker}>Best day</div>
-          <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9, textTransform: 'uppercase' }}>{vals.topDay}</div>
+          <div className="stat64" style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9, textTransform: 'uppercase' }}>{vals.topDay}</div>
           <div className="mono" style={{ fontSize: 13, marginTop: 12 }}>{vals.topDayAvg} avg impressions</div>
         </div>
         <div>
           <div className="mono" style={statKicker}>Avg engagement</div>
-          <div style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9 }}>{vals.avgEng}</div>
+          <div className="stat64" style={{ fontSize: 64, fontWeight: 800, letterSpacing: '-.04em', lineHeight: .9 }}>{vals.avgEng}</div>
           <div className="mono" style={{ fontSize: 13, marginTop: 12, color: '#9e9e9e' }}>likes + comments / post</div>
         </div>
       </div>
 
-      <div style={{ borderTop: '1px solid #000', marginBottom: 80 }}>
+      <div className="card" style={{ border: '1px solid #000', padding: '8px 36px 14px', marginBottom: 24 }}>
+        <div style={{ padding: '22px 0 14px' }}><CardHead num="01" title="Leaderboard" /></div>
         <div style={{ display: 'flex', padding: '14px 0', borderBottom: '1px solid #000' }} className="mono">
           <div style={{ flex: 1, ...colHead }}>Post type</div>
           <div style={{ width: 90, textAlign: 'right', ...colHead }}>Posts</div>
@@ -49,9 +51,9 @@ export default function Analyze({ state, vals, actions }) {
         ))}
       </div>
 
-      <div style={{ borderTop: '1px solid #000' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 0' }}>
-          <span className="mono" style={{ fontSize: 11, letterSpacing: '.16em', textTransform: 'uppercase' }}>Strategist read</span>
+      <div className="card" style={{ border: '1px solid #000', padding: '8px 36px 24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '22px 0 18px' }}>
+          <CardHead num="02" title="Strategist read" />
           <button onClick={actions.runAnalysis} style={analyzeBtn}>
             {state.analyzing && <Spinner />}
             <span>{vals.analyzeBtnLabel}</span>

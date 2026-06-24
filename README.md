@@ -111,15 +111,26 @@ The prototype's logic class maps almost 1:1: `state` → `store.js`, its methods
 ## The five modules
 
 - **01 Today** — daily launchpad: the one job, "Ride the wave" trend angles, a
-  comment drafter, and the evergreen "Pulse" briefing.
+  comment drafter, and **The Pulse "Live Signal" feed** — a two-pass, cross-checked
+  list of post-worthy developments you can tap to seed a draft. (Pass 1 generates
+  candidates; pass 2 is a skeptical fact-check that drops fabrications and tags
+  confidence. It's a self-consistency check between two AI passes, *not* live-web
+  validation — always verify before posting.)
 - **02 Generate** — write posts / ideas / recaps / calendars in voice; grade
-  against the rules; create image prompts; save to a draft library.
+  against the rules; create image prompts; save to a draft library; and an
+  **Idea Inbox** quick-capture scratchpad to park half-thoughts and fire any into
+  the writer.
 - **03 Commit** — pick posting days, lock the week, create content debt.
 - **04 Log** — did you post? metrics in. Pushes records into history.
 - **05 Analyze** — leaderboard + a strategist read of the logged numbers.
 
 ## Notes
 
+- The app is **mobile-responsive** — a single `@media (max-width: 720px)` block in
+  `index.css` collapses the two-column grids, scales the display type, and reflows
+  the cards. (The design reference documented this with inline-style attribute
+  hacks; here it's implemented with real CSS classes as the handoff's porting note
+  recommends.)
 - **Voice dictation** uses the browser Web Speech API (Chrome / Edge only).
 - **LinkedIn handoff** copies the post and opens LinkedIn's composer — there is no
   real auto-posting (that needs the LinkedIn API + a backend; v2).

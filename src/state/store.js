@@ -23,8 +23,9 @@ export const initialState = {
   accent: 'teal', grade: null, grading: false, postFlash: false,
   trends: [], trendsLoading: false,
   commentSrc: '', commentOut: '', commentLoading: false, commentCopied: false,
-  pulse: '', pulseLoading: false,
+  pulse: '', pulseLoading: false, feed: [], pulseStage: '', feedStatus: '',
   imgPrompt: '', imgLoading: false, imgCopied: false,
+  ideaInbox: [], ideaDraft: '',
 }
 
 function reducer(state, action) {

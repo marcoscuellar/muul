@@ -4,7 +4,7 @@ import { STORAGE_KEY } from './constants.js'
 const TRANSIENT = new Set([
   'generating', 'analyzing', 'justCopied', 'grading', 'grade', 'postFlash',
   'imgLoading', 'imgCopied', 'listeningField',
-  'trendsLoading', 'commentLoading', 'commentCopied', 'pulseLoading',
+  'trendsLoading', 'commentLoading', 'commentCopied', 'pulseLoading', 'pulseStage',
 ])
 
 // Strip transient fields — the shape we persist locally and sync to the cloud.

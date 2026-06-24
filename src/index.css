@@ -45,3 +45,36 @@ select {
   animation: spin .6s linear infinite;
 }
 .mono { font-family: 'Geist Mono', monospace; }
+
+/* Responsive: the prototype documented this intent with attribute-substring
+   hacks against serialized inline styles. Here it's expressed with real classes
+   applied to the components. !important is needed only to win over the inline
+   styles ported verbatim from the design reference. */
+@media (max-width: 720px) {
+  .mwrap { padding: 0 18px !important; }
+  .hero {
+    font-size: 52px !important;
+    letter-spacing: -.03em !important;
+    padding: 0 10px 4px !important;
+    margin-left: -10px !important;
+    line-height: 1.08 !important;
+  }
+  .introrow {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+    padding-top: 24px !important;
+  }
+  .introrow p { padding-bottom: 0 !important; max-width: none !important; }
+  /* All 1fr 1fr grids collapse to a single column. */
+  .grid2 { grid-template-columns: 1fr !important; gap: 20px !important; }
+  /* Big flex gaps wrap and shrink. */
+  .gap-lg { gap: 24px !important; flex-wrap: wrap !important; }
+  .rowflex { gap: 14px !important; }
+  .metricsrow { flex-wrap: wrap !important; gap: 16px !important; }
+  /* Card paddings tighten. */
+  .card { padding: 20px !important; }
+  /* Big numerals scale down. */
+  .statbig { font-size: 66px !important; }
+  .stat64 { font-size: 40px !important; }
+}

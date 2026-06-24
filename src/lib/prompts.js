@@ -34,8 +34,16 @@ export const prompts = {
   comment: (commentSrc) =>
     `MODE: DRAFT A COMMENT. Here's a LinkedIn post I found and want to comment on. Write a sharp, on-brand comment in my voice — 2 to 4 sentences, adds a real insight or angle (not generic praise), never salesy, no hashtags. Make it sound like me.\n\nTHE POST:\n${commentSrc}`,
 
-  pulse: () =>
-    `MODE: MARKETING PULSE. Give me a tight briefing to stay sharp on LinkedIn / social content strategy. 3 current best-practices that actually move reach + engagement, then ONE specific thing to try this week. Plain text, punchy, my voice, under 160 words, no preamble.`,
+  // The Pulse / "Live Signal" feed runs two sequential calls: pass 1 over-
+  // generates candidates, pass 2 acts as a skeptical fact-checker that drops
+  // fabrications and tags confidence. This is a self-consistency check between
+  // two AI passes, NOT validation against the live web — the model has no
+  // real-time access. It reduces hallucinations; it does not guarantee freshness.
+  pulsePass1: (todayLong) =>
+    `MODE: SIGNAL FEED — PASS 1. Today is ${todayLong}. Surface 8 fresh, post-worthy developments across MY lanes: cybersecurity, AI, tech stacks / dev tooling, emerging technology, and IEEE / standards & research. Mix the categories — a breach, a model release, a framework shift, a standard, a funding/acquisition, a research result. Return ONLY a JSON array, no fences: [{"cat":"Security|AI|Tech Stacks|Emerging Tech|IEEE/Standards","headline":"under 11 words, specific","take":"one sentence on why it matters / my angle"}]`,
+
+  pulsePass2: (todayLong, cand) =>
+    `MODE: SIGNAL FEED — PASS 2 (VERIFY). You are now a skeptical fact-checker reviewing these candidate items for a ${todayLong} briefing. For EACH item: judge whether it describes something real and plausible for this moment in tech. DROP anything you suspect is fabricated, a fake company/product name, a made-up CVE, a wrong attribution, or too vague to stand behind. For the survivors, fix any sloppy wording and assign confidence: "High" (you're confident it's real/recent) or "Medium" (directionally true / a real ongoing trend but verify specifics). Never output "Low". Return ONLY a JSON array of the KEPT items, no fences: [{"cat":"...","headline":"...","take":"...","confidence":"High|Medium"}]\n\nCANDIDATES:\n${JSON.stringify(cand)}`,
 
   analysis: (summary) =>
     `MODE: STRATEGIST ANALYSIS. Reviewing my logged LinkedIn performance:\n\n${summary}\n\nTell me, in my own direct voice, under 180 words: what post type is winning, what day works, what to double down on, and one thing to drop. Be specific, use the numbers. Plain text, short paragraphs, no preamble.`,
