@@ -13,13 +13,14 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
 <style>
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{width:100%;height:100%}
-  .tile{width:100vw;height:100vh;background:#000;display:flex;flex-direction:column;
-    align-items:center;justify-content:center;gap:5vw}
+  .tile{width:100vw;height:100vh;background:#000;display:flex;
+    align-items:center;justify-content:center}
   .word{font-family:'Geist','Helvetica Neue',Arial,sans-serif;font-weight:800;
-    color:#fff;font-size:25vw;letter-spacing:-.05em;line-height:1}
-  .bar{width:40vw;height:4vw;background:#0E7C7B}
+    color:#fff;font-size:23vw;letter-spacing:-.05em;line-height:1.18;
+    text-transform:uppercase;background:#0E7C7B;padding:0 4vw 1.5vw;
+    -webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style></head>
-<body><div class="tile"><div class="word">MÚUL</div><div class="bar"></div></div></body></html>`
+<body><div class="tile"><span class="word">MÚUL</span></div></body></html>`
 
 const sizes = [
   { name: 'apple-touch-icon.png', size: 180 },
