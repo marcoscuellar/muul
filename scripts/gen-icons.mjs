@@ -16,8 +16,8 @@ const html = `<!doctype html><html><head><meta charset="utf-8">
   .tile{width:100vw;height:100vh;background:#000;display:flex;
     align-items:center;justify-content:center}
   .word{font-family:'Geist','Helvetica Neue',Arial,sans-serif;font-weight:800;
-    color:#fff;font-size:23vw;letter-spacing:-.05em;line-height:1.18;
-    text-transform:uppercase;background:#0E7C7B;padding:0 4vw 1.5vw;
+    color:#000;font-size:23vw;letter-spacing:-.05em;line-height:1.18;
+    text-transform:uppercase;background:#E0A500;padding:0 4vw 1.5vw;
     -webkit-box-decoration-break:clone;box-decoration-break:clone}
 </style></head>
 <body><div class="tile"><span class="word">MÚUL</span></div></body></html>`
